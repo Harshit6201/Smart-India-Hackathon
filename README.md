@@ -7,9 +7,8 @@
 
 <img src="https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge&logo=python">
 <img src="https://img.shields.io/badge/PyTorch-GNN-red?style=for-the-badge&logo=pytorch">
-<img src="https://img.shields.io/badge/FastAPI-Backend-green?style=for-the-badge&logo=fastapi">
 <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge">
-<img src="https://img.shields.io/badge/SIH-2025-orange?style=for-the-badge">
+
 
 ### Intelligent Malware & Firmware Detection using Graph Neural Networks
 
@@ -19,48 +18,42 @@
 
 # 📌 Overview
 
-An advanced AI-powered cybersecurity framework designed for intelligent malware and firmware threat detection using **Graph Neural Networks (GNNs)**.
-
-The framework analyzes binaries by transforming them into:
-
-- Control Flow Graphs (CFG)
-- Call Graphs
-- Dependency Graphs
-
-Unlike traditional signature-based systems, this framework learns behavioral and structural malware patterns using:
-
+An intelligent cybersecurity framework leveraging Graph Neural Networks (GNNs) for advanced malware and firmware threat detection. The system uses Graph Isomorphism Networks (GIN) and GraphSAGE to analyze structural and behavioral patterns in binaries, overcoming limitations of traditional signature-based detection methods.
 - 🧠 **GIN (Graph Isomorphism Network)**
 - ⚡ **GraphSAGE**
 
 ---
 
 # ✨ Key Features
-
-## 🔹 Graph-Based Binary Analysis
+ # Graph-Based Binary Analysis: 
+ Transforms binaries into Control Flow Graphs (CFG), Call Graphs, and Dependency Graphs
 - CFG Generation
 - Call Graph Extraction
 - Dependency Graph Learning
 
-## 🔹 Hybrid GNN Architecture
+# Hybrid GNN Architecture:
+ombines GIN for structural pattern learning and GraphSAGE for scalable detection
 - GIN for structural pattern learning
 - GraphSAGE for scalable inductive learning
 
-## 🔹 Zero-Day Malware Detection
-Detects previously unseen malware variants using learned graph embeddings.
+# Zero-Day Malware Detection:
+Identifies previously unseen malware through learned graph patterns
 
-## 🔹 Multi-Architecture Support
+# Multi-Architecture Support:
 Supports:
 - x86
 - ARM
 - MIPS
 - Embedded Architectures
 
-## 🔹 REST API Integration
+# REST API Integration:
 FastAPI backend for:
 - Real-time malware analysis
 - SOC integration
 - Automated scanning
 
+# Comprehensive Metrics:
+Accuracy, Precision, Recall, F1-Score, and ROC-AUC tracking
 ---
 
 # 🏗️ System Architecture
@@ -73,22 +66,22 @@ FastAPI backend for:
                       │
 ┌─────────────────────▼────────────────────────┐
 │         Training & Optimization              │
-│     (AdamW, Batching, Checkpointing)         │
+│  (Graph Batching, Adam/AdamW, Checkpointing) │
 └─────────────────────┬────────────────────────┘
                       │
 ┌─────────────────────▼────────────────────────┐
 │            GIN + GraphSAGE Engine            │
-│     (Structural Threat Detection Engine)     │
+│  (Structural Learning + Inductive Detection) │
 └─────────────────────┬────────────────────────┘
                       │
 ┌─────────────────────▼────────────────────────┐
 │         Dataset & Graph Processing           │
-│   (Features, Relations, Normalization)       │
+│(Node Features, Edge Relations, Normalization)│
 └─────────────────────┬────────────────────────┘
                       │
 ┌─────────────────────▼────────────────────────┐
 │        Binary Loader & Graph Builder         │
-│     (Firmware Parsing + CFG Extraction)      │
+│(Binary Validation,Firmware Unpacking,Graph Gen)│
 └──────────────────────────────────────────────┘
 ```
 
@@ -98,20 +91,46 @@ FastAPI backend for:
 
 ```bash
 malware-gnn-analysis/
+malware-gnn-analysis/
 │
 ├── src/
 │   ├── data/
+│   │   ├── loader.py              # Binary/firmware loading
+│   │   ├── graph_extractor.py     # CFG/Call graph generation
+│   │   ├── dataset.py             # Custom dataset class
+│   │   └── preprocessor.py        # Feature engineering
+│   │
 │   ├── models/
+│   │   ├── gin.py                 # GIN implementation
+│   │   ├── graphsage.py           # GraphSAGE implementation
+│   │   ├── hybrid.py              # Combined GIN+GraphSAGE
+│   │   └── layers.py              # Custom GNN layers
+│   │
 │   ├── training/
+│   │   ├── trainer.py             # Training loop
+│   │   ├── optimizer.py           # Optimization strategies
+│   │   └── metrics.py             # Performance evaluation
+│   │
 │   ├── api/
+│   │   ├── app.py                 # FastAPI application
+│   │   ├── routes.py              # API endpoints
+│   │   └── schemas.py             # Request/response models
+│   │
 │   └── utils/
+│       ├── config.py              # Configuration management
+│       ├── logger.py              # Logging utilities
+│       └── visualization.py       # Graph plotting
 │
 ├── data/
-├── models/
-├── logs/
-├── notebooks/
-├── tests/
-├── docs/
+│   ├── raw/                       # Raw binary samples
+│   ├── processed/                 # Processed graphs
+│   └── datasets/                  # Training/test splits
+│
+├── models/                        # Saved model checkpoints
+├── logs/                          # Training logs
+├── notebooks/                     # Jupyter notebooks
+├── tests/                         # Unit tests
+├── docs/                          # Documentation
 │
 ├── requirements.txt
 ├── setup.py
@@ -208,20 +227,198 @@ from src.data.loader import BinaryLoader
 from src.models.hybrid import HybridGNN
 from src.data.graph_extractor import GraphExtractor
 
+# Load binary
 loader = BinaryLoader()
-binary = loader.load("sample.exe")
+binary = loader.load("malware_sample.exe")
 
+# Extract graph
 extractor = GraphExtractor()
 graph = extractor.extract_cfg(binary)
 
+# Load model and predict
 model = HybridGNN.load("models/best_model.pth")
-
 prediction = model.predict(graph)
 
-print(prediction)
+print(f"Malware probability: {prediction['malware_prob']:.2%}")
+print(f"Detected family: {prediction['family']}")
 ```
 
 ---
+
+## REST API
+import requests
+
+# Upload and analyze
+
+with open("firmware.bin", "rb") as f:
+    response = requests.post(
+        "http://localhost:8000/analyze",
+        files={"file": f}
+    )
+
+result = response.json()
+print(result["threat_score"])
+print(result["detected_patterns"])
+
+# 🔬 Technical Details
+
+## Graph Construction
+
+### Node Features (per basic block/function):
+
+- Opcode frequency distribution (one-hot encoded)
+- Entropy metrics
+- Instruction count
+- API call patterns
+- Cryptographic operation indicators
+- String constants features
+
+---
+
+### Edge Relations:
+
+- Control flow transitions
+- Function call relationships
+- Data dependency links
+- Memory access patterns
+
+---
+
+### Global Graph Features:
+
+- Architecture type (x86/ARM/MIPS)
+- File format (ELF/PE/Mach-O)
+- Section characteristics
+- Import/export tables
+
+---
+
+# 🧠 GIN Architecture
+
+```text
+Input Graph
+    ↓
+GIN Conv Layer 1 (128 hidden)
+    ↓
+Batch Norm → ReLU → Dropout(0.2)
+    ↓
+GIN Conv Layer 2 (256 hidden)
+    ↓
+Batch Norm → ReLU → Dropout(0.2)
+    ↓
+GIN Conv Layer 3 (512 hidden)
+    ↓
+Global Pooling (mean/max/sum)
+    ↓
+FC Layer (256) → ReLU
+    ↓
+FC Layer (num_classes)
+```
+
+---
+
+# ⚡ GraphSAGE Architecture
+
+```text
+Input Graph
+    ↓
+GraphSAGE Layer 1 (mean aggregation, 128)
+    ↓
+ReLU → Dropout(0.3)
+    ↓
+GraphSAGE Layer 2 (mean aggregation, 256)
+    ↓
+ReLU → Dropout(0.3)
+    ↓
+GraphSAGE Layer 3 (mean aggregation, 512)
+    ↓
+Global Pooling
+    ↓
+Classification Head
+```
+
+---
+
+# 🤖 Hybrid GNN Model
+
+The framework combines the strengths of:
+
+| Model | Purpose |
+|---|---|
+| GIN | Structural malware pattern learning |
+| GraphSAGE | Scalable inductive threat detection |
+
+This hybrid approach improves:
+- Detection accuracy
+- Zero-day malware identification
+- Cross-platform generalization
+- Real-time prediction performance
+
+---
+
+# 🛡️ Zero-Day Malware Detection
+
+Unlike traditional signature-based systems, the framework learns:
+
+- Structural execution patterns
+- Behavioral graph embeddings
+- API interaction relationships
+
+This enables detection of:
+- Unknown malware variants
+- Packed binaries
+- Polymorphic malware
+- Obfuscated firmware threats
+
+---
+
+# 📊 Training Strategy
+
+### Optimizer
+- Adam / AdamW
+
+### Loss Function
+- Cross Entropy Loss
+
+### Regularization
+- Dropout
+- Batch Normalization
+- Weight Decay
+
+### Training Techniques
+- Mini-batch graph training
+- Graph pooling
+- Checkpoint saving
+- Learning rate scheduling
+
+---
+
+# 📈 Evaluation Metrics
+
+The framework tracks:
+
+| Metric | Purpose |
+|---|---|
+| Accuracy | Overall prediction correctness |
+| Precision | Malware detection reliability |
+| Recall | Threat capture efficiency |
+| F1-Score | Balanced performance |
+| ROC-AUC | Classification capability |
+
+---
+
+# 🚀 API & Deployment
+
+Backend powered by:
+- FastAPI
+- PyTorch Geometric
+
+Supports:
+- Real-time malware analysis
+- REST API endpoints
+- SOC integration
+- Cloud deployment
+- Batch binary scanning
 
 # 📊 Performance Metrics
 
