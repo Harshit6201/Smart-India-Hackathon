@@ -1,4 +1,4 @@
-AI-Driven Framework for Intelligent Firmware & Malware Graph Analysis
+#AI-Driven Framework for Intelligent Firmware & Malware Graph Analysis
 
 Smart India Hackathon 2025 Project
 Python 3.8+ | PyTorch | MIT License
@@ -337,11 +337,6 @@ This project is licensed under the MIT License.
 
 See the LICENSE file for details.
 
-📧 Contact
-Harsh Kumar Verma
-
-Team Lead & Developer
-📩 harsh9760verma@gmail.com
 
 🙏 Acknowledgments
 Smart India Hackathon Organizing Committee
