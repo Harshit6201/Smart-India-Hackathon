@@ -1,9 +1,11 @@
 AI-Driven Framework for Intelligent Firmware & Malware Graph Analysis
 <div align="center">
+  
 🚀 Smart India Hackathon 2025 Project
 <img src="https://img.shields.io/badge/Python-3.8+-blue.svg"> <img src="https://img.shields.io/badge/PyTorch-GNN-red.svg"> <img src="https://img.shields.io/badge/FastAPI-Backend-green.svg"> <img src="https://img.shields.io/badge/License-MIT-yellow.svg"> <img src="https://img.shields.io/badge/SIH-2025-orange.svg">
 Intelligent Malware & Firmware Threat Detection using Graph Neural Networks
 </div>
+
 📌 Overview
 
 An intelligent cybersecurity framework leveraging Graph Neural Networks (GNNs) for advanced malware and firmware threat detection. The system uses Graph Isomorphism Networks (GIN) and GraphSAGE to analyze structural and behavioral patterns in binaries, overcoming limitations of traditional signature-based detection methods.
