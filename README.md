@@ -465,11 +465,6 @@ Supports:
 
 ---
 
-## Harshit Tiwari
-### Developer & Research Contributor
-
----
-
 # 📄 License
 
 Licensed under the **MIT License**.
